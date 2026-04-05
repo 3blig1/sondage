@@ -24,6 +24,7 @@
             <div class="mb-4 flex items-center justify-end gap-3 text-sm">
                 @auth
                     <a href="{{ route('dashboard') }}" class="btn-secondary">Dashboard</a>
+                    <a href="{{ route('dashboard') }}#nouveau-sondage" class="btn-primary">Créer un sondage</a>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="btn-secondary">Déconnexion</button>

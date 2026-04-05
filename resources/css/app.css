@@ -11,6 +11,10 @@
 }
 
 @layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
         background:
             radial-gradient(circle at top, rgba(59, 130, 246, 0.14), transparent 32%),

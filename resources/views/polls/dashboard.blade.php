@@ -261,7 +261,7 @@
             </section>
         </section>
 
-        <aside class="glass-panel rounded-[2rem] p-6 sm:p-8 xl:sticky xl:top-6">
+        <aside id="nouveau-sondage" class="glass-panel rounded-[2rem] p-6 sm:p-8 xl:sticky xl:top-6">
             <p class="text-sm font-medium uppercase tracking-[0.2em] text-cyan-300">Nouveau sondage</p>
             <h3 class="mt-2 text-xl font-semibold text-white">Créer rapidement</h3>
             <p class="mt-2 text-sm leading-6 text-slate-300">
