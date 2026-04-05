@@ -9,3 +9,205 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@layer base {
+    body {
+        background:
+            radial-gradient(circle at top, rgba(59, 130, 246, 0.14), transparent 32%),
+            radial-gradient(circle at right, rgba(168, 85, 247, 0.16), transparent 28%),
+            linear-gradient(180deg, #020617 0%, #0f172a 100%);
+        color: #e2e8f0;
+    }
+
+    input[type='date']::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        filter: invert(1);
+        opacity: 0.8;
+    }
+}
+
+.grid-pattern {
+    background-image:
+        linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+    background-position: center;
+    background-size: 32px 32px;
+}
+
+.glass-panel {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 24px 80px rgba(15, 23, 42, 0.35);
+}
+
+.soft-panel {
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    background: rgba(15, 23, 42, 0.55);
+}
+
+.field-input {
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background: rgba(15, 23, 42, 0.75);
+    padding: 0.85rem 1rem;
+    color: #f8fafc;
+    outline: none;
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+.field-input:focus {
+    border-color: rgba(96, 165, 250, 0.85);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
+    padding: 0.95rem 1.35rem;
+    font-weight: 700;
+    color: white;
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        opacity 180ms ease;
+    box-shadow: 0 16px 38px rgba(59, 130, 246, 0.28);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 20px 44px rgba(99, 102, 241, 0.32);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(15, 23, 42, 0.55);
+    padding: 0.85rem 1.2rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    transition:
+        border-color 180ms ease,
+        background 180ms ease,
+        color 180ms ease;
+}
+
+.btn-secondary:hover {
+    border-color: rgba(96, 165, 250, 0.55);
+    background: rgba(30, 41, 59, 0.86);
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(125, 211, 252, 0.2);
+    background: rgba(14, 165, 233, 0.12);
+    padding: 0.45rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #bae6fd;
+}
+
+.progress-track {
+    overflow: hidden;
+    border-radius: 9999px;
+    background: rgba(148, 163, 184, 0.12);
+}
+
+.progress-fill {
+    height: 0.7rem;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #38bdf8 0%, #22c55e 100%);
+}
+
+.dashboard-shell {
+    display: grid;
+    gap: 1.5rem;
+}
+
+@media (min-width: 1280px) {
+    .dashboard-shell {
+        grid-template-columns: minmax(0, 1.45fr) minmax(360px, 0.85fr);
+        align-items: start;
+    }
+}
+
+.dashboard-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.dashboard-card {
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 1.5rem;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.56) 100%);
+    padding: 1.25rem;
+}
+
+.dashboard-kpi {
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-kpi::after {
+    content: '';
+    position: absolute;
+    inset: auto -20% -50% auto;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(56, 189, 248, 0) 70%);
+}
+
+.chart-bar-track {
+    height: 0.7rem;
+    overflow: hidden;
+    border-radius: 9999px;
+    background: rgba(148, 163, 184, 0.12);
+}
+
+.chart-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, rgba(34, 211, 238, 1) 0%, rgba(99, 102, 241, 1) 100%);
+}
+
+.dashboard-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mini-stat {
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 1.25rem;
+    background: rgba(15, 23, 42, 0.48);
+    padding: 0.9rem 1rem;
+}
+
+.chart-canvas-wrap {
+	position: relative;
+	height: 18rem;
+}
+
+.chart-canvas-wrap.chart-canvas-wrap-sm {
+	height: 16rem;
+}
