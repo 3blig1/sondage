@@ -76,16 +76,33 @@
         <div class="mb-3 flex items-center justify-between gap-4">
             <div>
                 <h3 class="text-sm font-medium text-slate-100">Dates proposées</h3>
-                <p class="text-sm text-slate-400">Ajoute entre 2 et 10 créneaux.</p>
+                <p class="text-sm text-slate-400">Ajoute entre 2 et 10 créneaux avec un affichage clair et rapide à compléter.</p>
             </div>
             <button type="button" class="btn-secondary" data-add-date>Ajouter une date</button>
         </div>
 
         <div class="space-y-3" data-date-fields>
-            @foreach ($dateValues as $value)
-                <div class="flex flex-col gap-3 sm:flex-row" data-date-row>
+            @foreach ($dateValues as $index => $value)
+                <div class="date-slot-card" data-date-row>
+                    <div class="date-slot-head">
+                        <div>
+                            <div class="date-slot-title">
+                                <span class="date-slot-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="4" width="18" height="18" rx="3" ry="3"></rect>
+                                        <line x1="16" y1="2.5" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2.5" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                </span>
+                                <span class="date-slot-index">Date {{ $index + 1 }}</span>
+                            </div>
+                            <p class="date-slot-help">Choisis un créneau à proposer à tes participants.</p>
+                        </div>
+                        <button type="button" class="btn-secondary sm:min-w-32" data-remove-date>Retirer</button>
+                    </div>
+
                     <input type="date" name="dates[]" value="{{ $value }}" min="{{ now()->toDateString() }}" class="field-input">
-                    <button type="button" class="btn-secondary sm:min-w-32" data-remove-date>Retirer</button>
                 </div>
             @endforeach
         </div>

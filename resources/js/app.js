@@ -3,11 +3,27 @@ import Chart from 'chart.js/auto';
 
 const createDateRow = (value = '') => {
 	const row = document.createElement('div');
-	row.className = 'flex flex-col gap-3 sm:flex-row';
+	row.className = 'date-slot-card';
 	row.setAttribute('data-date-row', '');
 	row.innerHTML = `
+		<div class="date-slot-head">
+			<div>
+				<div class="date-slot-title">
+					<span class="date-slot-icon" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+							<rect x="3" y="4" width="18" height="18" rx="3" ry="3"></rect>
+							<line x1="16" y1="2.5" x2="16" y2="6"></line>
+							<line x1="8" y1="2.5" x2="8" y2="6"></line>
+							<line x1="3" y1="10" x2="21" y2="10"></line>
+						</svg>
+					</span>
+					<span class="date-slot-index">Date</span>
+				</div>
+				<p class="date-slot-help">Choisis un créneau à proposer à tes participants.</p>
+			</div>
+			<button type="button" class="btn-secondary sm:min-w-32" data-remove-date>Retirer</button>
+		</div>
 		<input type="date" name="dates[]" class="field-input" value="${value}" min="${new Date().toISOString().split('T')[0]}">
-		<button type="button" class="btn-secondary sm:min-w-32" data-remove-date>Retirer</button>
 	`;
 
 	return row;
@@ -18,9 +34,14 @@ const syncRemoveButtons = (container) => {
 
 	rows.forEach((row, index) => {
 		const button = row.querySelector('[data-remove-date]');
+		const label = row.querySelector('.date-slot-index');
 
 		if (!button) {
 			return;
+		}
+
+		if (label) {
+			label.textContent = `Date ${index + 1}`;
 		}
 
 		button.classList.toggle('hidden', rows.length <= 2 && index < 2);
