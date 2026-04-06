@@ -23,7 +23,10 @@ const createDateRow = (value = '') => {
 			</div>
 			<button type="button" class="btn-secondary date-slot-remove sm:min-w-32" data-remove-date>Retirer</button>
 		</div>
-		<input type="date" name="dates[]" class="field-input" value="${value}" min="${new Date().toISOString().split('T')[0]}">
+		<div>
+			<input type="date" name="dates[]" class="field-input" value="${value}" min="${new Date().toISOString().split('T')[0]}">
+			<p class="date-input-format">Format : tt.mm.jjjj</p>
+		</div>
 	`;
 
 	return row;

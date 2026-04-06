@@ -102,7 +102,10 @@
                         <button type="button" class="btn-secondary date-slot-remove sm:min-w-32" data-remove-date>Retirer</button>
                     </div>
 
-                    <input type="date" name="dates[]" value="{{ $value }}" min="{{ now()->toDateString() }}" class="field-input">
+                    <div>
+                        <input type="date" name="dates[]" value="{{ $value }}" min="{{ now()->toDateString() }}" class="field-input">
+                        <p class="date-input-format">Format : tt.mm.jjjj</p>
+                    </div>
                 </div>
             @endforeach
         </div>
