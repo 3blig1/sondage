@@ -21,7 +21,7 @@ const createDateRow = (value = '') => {
 				</div>
 				<p class="date-slot-help">Choisis un créneau à proposer à tes participants.</p>
 			</div>
-			<button type="button" class="btn-secondary sm:min-w-32" data-remove-date>Retirer</button>
+			<button type="button" class="btn-secondary date-slot-remove sm:min-w-32" data-remove-date>Retirer</button>
 		</div>
 		<input type="date" name="dates[]" class="field-input" value="${value}" min="${new Date().toISOString().split('T')[0]}">
 	`;

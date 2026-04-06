@@ -99,7 +99,7 @@
                             </div>
                             <p class="date-slot-help">Choisis un créneau à proposer à tes participants.</p>
                         </div>
-                        <button type="button" class="btn-secondary sm:min-w-32" data-remove-date>Retirer</button>
+                        <button type="button" class="btn-secondary date-slot-remove sm:min-w-32" data-remove-date>Retirer</button>
                     </div>
 
                     <input type="date" name="dates[]" value="{{ $value }}" min="{{ now()->toDateString() }}" class="field-input">
