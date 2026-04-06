@@ -71,6 +71,7 @@
 
 .field-input {
     width: 100%;
+    min-width: 0;
     border-radius: 1rem;
     border: 1px solid rgba(148, 163, 184, 0.22);
     background: rgba(15, 23, 42, 0.75);
@@ -185,6 +186,23 @@
     gap: 1.5rem;
 }
 
+.responsive-chip-row {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+}
+
+@media (min-width: 1280px) {
+    .responsive-chip-row {
+        overflow: visible;
+        padding-bottom: 0;
+        flex-wrap: wrap;
+    }
+}
+
 @media (min-width: 1280px) {
     .dashboard-shell {
         grid-template-columns: minmax(0, 1.45fr) minmax(360px, 0.85fr);
@@ -256,6 +274,38 @@
 
 .chart-canvas-wrap.chart-canvas-wrap-sm {
 	height: 16rem;
+}
+
+@media (max-width: 639px) {
+    .chart-canvas-wrap {
+        height: 14rem;
+    }
+
+    .chart-canvas-wrap.chart-canvas-wrap-sm {
+        height: 13rem;
+    }
+
+    .glass-panel {
+        border-radius: 1.5rem;
+    }
+
+    .modal-panel {
+        border-radius: 1.5rem;
+        padding: 1rem;
+    }
+
+    .canvas, 
+    canvas {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .btn-primary,
+    .btn-secondary,
+    .btn-compact {
+        min-height: 2.9rem;
+    }
 }
 
 .modal-overlay {

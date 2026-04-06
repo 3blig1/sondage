@@ -12,9 +12,9 @@
                     </p>
                 </div>
 
-                <div class="flex gap-3">
-                    <a href="{{ route('dashboard') }}" class="btn-secondary">Retour dashboard</a>
-                    <a href="{{ route('polls.show', $poll) }}" class="btn-secondary">Voir le sondage</a>
+                <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+                    <a href="{{ route('dashboard') }}" class="btn-secondary w-full sm:w-auto">Retour dashboard</a>
+                    <a href="{{ route('polls.show', $poll) }}" class="btn-secondary w-full sm:w-auto">Voir le sondage</a>
                 </div>
             </div>
 

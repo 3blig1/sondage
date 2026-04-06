@@ -20,18 +20,18 @@
             <div class="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl"></div>
         </div>
 
-        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
-            <div class="mb-4 flex items-center justify-end gap-3 text-sm">
+        <div class="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-10">
+            <div class="mb-4 flex flex-col gap-3 text-sm sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
                 @auth
-                    <a href="{{ route('dashboard') }}" class="btn-secondary">Dashboard</a>
-                    <a href="{{ route('dashboard') }}#nouveau-sondage-modal" class="btn-primary" data-open-modal-target="nouveau-sondage-modal">Créer un sondage</a>
-                    <form action="{{ route('logout') }}" method="POST">
+                    <a href="{{ route('dashboard') }}" class="btn-secondary w-full sm:w-auto">Dashboard</a>
+                    <a href="{{ route('dashboard') }}#nouveau-sondage-modal" class="btn-primary w-full sm:w-auto" data-open-modal-target="nouveau-sondage-modal">Créer un sondage</a>
+                    <form action="{{ route('logout') }}" method="POST" class="w-full sm:w-auto">
                         @csrf
-                        <button type="submit" class="btn-secondary">Déconnexion</button>
+                        <button type="submit" class="btn-secondary w-full sm:w-auto">Déconnexion</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="btn-secondary">Connexion</a>
-                    <a href="{{ route('register') }}" class="btn-primary">Inscription</a>
+                    <a href="{{ route('login') }}" class="btn-secondary w-full sm:w-auto">Connexion</a>
+                    <a href="{{ route('register') }}" class="btn-primary w-full sm:w-auto">Inscription</a>
                 @endauth
             </div>
 

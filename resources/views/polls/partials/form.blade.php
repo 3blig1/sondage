@@ -73,19 +73,19 @@
     </div>
 
     <div>
-        <div class="mb-3 flex items-center justify-between gap-4">
+        <div class="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <h3 class="text-sm font-medium text-slate-100">Dates proposées</h3>
                 <p class="text-sm text-slate-400">Ajoute entre 2 et 10 créneaux.</p>
             </div>
-            <button type="button" class="btn-secondary" data-add-date>Ajouter une date</button>
+            <button type="button" class="btn-secondary w-full sm:w-auto" data-add-date>Ajouter une date</button>
         </div>
 
         <div class="space-y-3" data-date-fields>
             @foreach ($dateValues as $value)
                 <div class="flex flex-col gap-3 sm:flex-row" data-date-row>
                     <input type="date" name="dates[]" value="{{ $value }}" min="{{ now()->toDateString() }}" class="field-input">
-                    <button type="button" class="btn-secondary sm:min-w-32" data-remove-date>Retirer</button>
+                    <button type="button" class="btn-secondary w-full sm:min-w-32 sm:w-auto" data-remove-date>Retirer</button>
                 </div>
             @endforeach
         </div>
@@ -103,6 +103,6 @@
         <p class="max-w-xl text-sm leading-6 text-slate-400">
             Le prénom de l’organisateur est repris automatiquement depuis ton compte.
         </p>
-        <button type="submit" class="btn-primary">{{ $submitLabel }}</button>
+        <button type="submit" class="btn-primary w-full sm:w-auto">{{ $submitLabel }}</button>
     </div>
 </form>

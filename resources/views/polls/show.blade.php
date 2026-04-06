@@ -20,11 +20,11 @@
                             @endif
                         </div>
 
-                        <div class="soft-panel rounded-3xl p-4 lg:min-w-96">
+                        <div class="soft-panel rounded-3xl p-4 w-full lg:w-auto lg:min-w-0 xl:max-w-md">
                             <label for="share-link" class="mb-2 block text-sm font-medium text-slate-200">Lien de partage</label>
                             <div class="flex flex-col gap-3 sm:flex-row">
                                 <input id="share-link" type="text" readonly value="{{ route('polls.show', $poll) }}" class="field-input">
-                                <button type="button" class="btn-primary sm:min-w-36" data-copy-button="#share-link">Copier</button>
+                                <button type="button" class="btn-primary w-full sm:min-w-36 sm:w-auto" data-copy-button="#share-link">Copier</button>
                             </div>
 
                             <div class="mt-3 flex flex-wrap gap-3">
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="glass-panel rounded-[2rem] p-5 sm:p-7">
-                    <div class="flex items-center justify-between gap-4">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <p class="text-sm font-medium uppercase tracking-[0.2em] text-emerald-300">Tendance</p>
                             <h3 class="mt-2 text-xl font-semibold text-white sm:text-2xl">Popularité des dates</h3>
@@ -66,7 +66,7 @@
                             @endphp
 
                             <div class="rounded-[1.5rem] border {{ $isBest ? 'border-emerald-400/35 bg-emerald-400/10' : 'border-white/10 bg-white/5' }} p-4">
-                                <div class="flex items-start justify-between gap-4">
+                                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                     <div>
                                         <p class="text-xs uppercase tracking-[0.2em] text-slate-400">{{ $summary['short_label'] }}</p>
                                         <h4 class="mt-2 text-base font-semibold text-white sm:text-lg">{{ ucfirst($summary['label']) }}</h4>
@@ -98,10 +98,10 @@
                 </div>
 
                 <div id="reponses" class="glass-panel rounded-[2rem] p-5 sm:p-7">
-                    <div class="flex items-center justify-between gap-4">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <p class="text-sm font-medium uppercase tracking-[0.2em] text-violet-300">Participants</p>
-                            <h3 class="mt-2 text-xl font-semibold text-white sm:text-2xl">Participants par choix</h3>
+                            <h3 class="mt-2 text-xl font-semibold text-white sm:text-2xl">Réponses enregistrées par choix</h3>
                         </div>
 
                         <span class="participant-badge participant-badge--accent">{{ $poll->responses_count }} réponse(s)</span>
@@ -110,7 +110,7 @@
                     <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
                         @forelse ($dateSummaries as $summary)
                             <article class="response-card">
-                                <div class="flex items-start justify-between gap-4">
+                                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                     <div>
                                         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">{{ $summary['short_label'] }}</p>
                                         <h4 class="mt-2 text-base font-semibold text-white sm:text-lg">{{ ucfirst($summary['label']) }}</h4>
@@ -228,7 +228,7 @@
         @endif
 
         @if ($isOwner)
-            <aside class="space-y-6 xl:sticky xl:top-6 h-fit">
+            <aside class="h-fit space-y-6 xl:sticky xl:top-6">
                 <section class="glass-panel rounded-[2rem] p-5 sm:p-7">
                     <p class="text-sm font-medium uppercase tracking-[0.2em] text-cyan-300">Gestion du sondage</p>
                     <h3 class="mt-2 text-xl font-semibold text-white sm:text-2xl">Piloter et partager</h3>
