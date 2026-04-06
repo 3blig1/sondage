@@ -192,7 +192,7 @@ class PollWorkflowTest extends TestCase
         $response->assertDontSee('Envoyer ma réponse');
         $response->assertSee('Gestion du sondage');
         $response->assertSee('Modifier le sondage');
-        $response->assertSee('Réponses enregistrées');
+        $response->assertSee('Participants par choix');
     }
 
     public function test_poll_participants_are_paginated_by_ten_for_the_owner(): void
