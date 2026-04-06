@@ -41,7 +41,7 @@
                         </div>
                         <div class="soft-panel rounded-2xl px-4 py-3">
                             <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Réponses</p>
-                            <p class="mt-1 text-lg font-semibold text-white">{{ $poll->responses->count() }}</p>
+                            <p class="mt-1 text-lg font-semibold text-white">{{ $poll->responses_count }}</p>
                         </div>
                         <div class="soft-panel rounded-2xl px-4 py-3">
                             <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Meilleur score</p>
@@ -98,33 +98,40 @@
                 </div>
 
                 <div id="reponses" class="glass-panel rounded-[2rem] p-5 sm:p-7">
-                    <p class="text-sm font-medium uppercase tracking-[0.2em] text-violet-300">Participants</p>
-                    <h3 class="mt-2 text-xl font-semibold text-white sm:text-2xl">Réponses enregistrées</h3>
+                    <div class="flex items-center justify-between gap-4">
+                        <div>
+                            <p class="text-sm font-medium uppercase tracking-[0.2em] text-violet-300">Participants</p>
+                            <h3 class="mt-2 text-xl font-semibold text-white sm:text-2xl">Participants par choix</h3>
+                        </div>
 
-                    <div class="mt-5 space-y-4">
-                        @forelse ($poll->responses as $response)
-                            <article class="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
-                                <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                        <span class="participant-badge participant-badge--accent">{{ $poll->responses_count }} réponse(s)</span>
+                    </div>
+
+                    <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
+                        @forelse ($dateSummaries as $summary)
+                            <article class="response-card">
+                                <div class="flex items-start justify-between gap-4">
                                     <div>
-                                        <h4 class="text-base font-semibold text-white sm:text-lg">{{ $response->participant_name }}</h4>
-                                        <p class="mt-1 text-xs uppercase tracking-[0.2em] text-slate-500">{{ $response->created_at->diffForHumans() }}</p>
+                                        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">{{ $summary['short_label'] }}</p>
+                                        <h4 class="mt-2 text-base font-semibold text-white sm:text-lg">{{ ucfirst($summary['label']) }}</h4>
                                     </div>
-                                    <div class="flex flex-wrap gap-2">
-                                        @foreach ($response->choices as $choice)
-                                            <span class="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-100">
-                                                {{ ucfirst($choice->date->date->locale('fr')->isoFormat('ddd D MMM')) }}
-                                            </span>
-                                        @endforeach
-                                    </div>
+
+                                    <span class="participant-badge participant-badge--soft">
+                                        {{ $summary['count'] }} participant(s)
+                                    </span>
                                 </div>
 
-                                @if ($response->comment)
-                                    <p class="mt-4 text-sm leading-6 text-slate-300">{{ $response->comment }}</p>
-                                @endif
+                                <div class="mt-5 flex flex-wrap gap-2">
+                                    @forelse ($summary['participants'] as $participant)
+                                        <span class="response-chip">{{ $participant }}</span>
+                                    @empty
+                                        <span class="text-sm text-slate-500">Aucun participant pour cette date</span>
+                                    @endforelse
+                                </div>
                             </article>
                         @empty
-                            <div class="rounded-[1.75rem] border border-dashed border-white/10 px-4 py-10 text-center text-sm text-slate-400">
-                                Personne n’a encore répondu. Sois le premier.
+                            <div class="rounded-[1.75rem] border border-dashed border-white/10 bg-white/4 px-4 py-12 text-center text-sm text-slate-400">
+                                Aucune réponse pour le moment. Les participations apparaîtront ici dès les premiers retours.
                             </div>
                         @endforelse
                     </div>

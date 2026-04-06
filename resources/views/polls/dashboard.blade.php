@@ -153,7 +153,7 @@
                     @endif
                 </section>
 
-                <section class="glass-panel rounded-[2rem] p-6 sm:p-8">
+                <section class="glass-panel rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between">
                     <p class="text-sm font-medium uppercase tracking-[0.2em] text-violet-300">Vue d’ensemble</p>
                     <h3 class="mt-2 text-xl font-semibold text-white">Répartition et insights</h3>
 
@@ -176,33 +176,9 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 rounded-[1.5rem] border border-white/10 bg-white/5 p-5">
-                        <p class="text-sm text-slate-400">Sondage le plus performant</p>
-                        @if ($dashboardStats['topPoll'])
-                            <p class="mt-2 text-lg font-semibold text-white">{{ $dashboardStats['topPoll']->title }}</p>
-                            <p class="mt-2 text-sm text-slate-300">
-                                {{ $dashboardStats['topPoll']->responses_count }} réponse(s) pour {{ $dashboardStats['topPoll']->dates_count }} date(s) proposées.
-                            </p>
-                            <a href="{{ route('polls.show', $dashboardStats['topPoll']) }}" class="btn-secondary mt-4">Ouvrir ce sondage</a>
-                        @else
-                            <p class="mt-2 text-sm text-slate-400">Aucune donnée disponible pour le moment.</p>
-                        @endif
-                    </div>
-
-                    <div class="dashboard-divider mt-6 pt-6">
-                        <p class="text-sm text-slate-400">Lecture rapide</p>
-                        <ul class="mt-3 space-y-3 text-sm text-slate-300">
-                            <li class="rounded-xl border border-white/8 bg-white/5 px-4 py-3">
-                                Les cartes KPI donnent une vue immédiate du volume et de l’engagement.
-                            </li>
-                            <li class="rounded-xl border border-white/8 bg-white/5 px-4 py-3">
-                                Le graphique met en avant les sondages qui génèrent le plus de réponses.
-                            </li>
-                            <li class="rounded-xl border border-white/8 bg-white/5 px-4 py-3">
-                                La liste détaillée reste disponible plus bas pour la gestion opérationnelle.
-                            </li>
-                        </ul>
-                    </div>
+                    <p class="mt-6 text-sm leading-6 text-slate-400">
+                        Cette vue met l’accent sur la répartition des modes de vote pour donner une lecture plus claire et plus équilibrée de ton activité.
+                    </p>
                 </section>
             </div>
 
@@ -210,15 +186,15 @@
                 <div class="flex items-center justify-between gap-4">
                     <div>
                         <p class="text-sm font-medium uppercase tracking-[0.2em] text-emerald-300">Mes sondages</p>
-                        <h3 class="mt-2 text-xl font-semibold text-white">Gestion détaillée</h3>
+                        <h3 class="mt-2 text-xl font-semibold text-white">Liste paginée</h3>
                     </div>
-                    <span class="text-sm text-slate-400">{{ $myPolls->count() }} élément(s)</span>
+                    <span class="text-sm text-slate-400">{{ $myPolls->count() }} / {{ $dashboardStats['totalPolls'] }} affiché(s)</span>
                 </div>
 
-                <div class="mt-6 space-y-3">
+                <div class="mt-4 max-h-[32rem] space-y-3 overflow-y-auto pr-2">
                     @forelse ($myPolls as $ownedPoll)
-                        <div class="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 sm:p-5">
-                            <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                        <div class="rounded-[1.25rem] border border-white/10 bg-white/5 p-4">
+                            <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                                 <div>
                                     <a href="{{ route('polls.show', $ownedPoll) }}" class="text-lg font-semibold text-white hover:text-cyan-200">{{ $ownedPoll->title }}</a>
                                     <div class="mt-2 flex flex-wrap items-center gap-2">
@@ -233,22 +209,22 @@
                                         </span>
                                     </div>
                                     @if ($ownedPoll->description)
-                                        <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-400">{{ $ownedPoll->description }}</p>
+                                        <p class="mt-2 max-w-3xl truncate text-sm text-slate-400">{{ $ownedPoll->description }}</p>
                                     @endif
                                 </div>
 
-                                <div class="text-sm text-slate-500">
+                                <div class="shrink-0 text-sm text-slate-500">
                                     {{ $ownedPoll->created_at->diffForHumans() }}
                                 </div>
                             </div>
 
-                            <div class="mt-5 flex flex-wrap gap-3">
-                                <a href="{{ route('polls.edit', $ownedPoll) }}" class="btn-secondary">Modifier</a>
-                                <a href="{{ route('polls.show', $ownedPoll) }}" class="btn-secondary">Voir</a>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <a href="{{ route('polls.edit', $ownedPoll) }}" class="btn-compact">Modifier</a>
+                                <a href="{{ route('polls.show', $ownedPoll) }}" class="btn-compact">Voir</a>
                                 <form action="{{ route('polls.destroy', $ownedPoll) }}" method="POST" onsubmit="return confirm('Supprimer ce sondage ?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-secondary border-rose-400/25 text-rose-200 hover:border-rose-400/45 hover:bg-rose-500/10">Supprimer</button>
+                                    <button type="submit" class="btn-compact border-rose-400/25 text-rose-200 hover:border-rose-400/45 hover:bg-rose-500/10">Supprimer</button>
                                 </form>
                             </div>
                         </div>
@@ -258,15 +234,57 @@
                         </div>
                     @endforelse
                 </div>
+
+                @if ($myPolls->hasPages())
+                    <div class="mt-5 border-t border-white/10 pt-4">
+                        {{ $myPolls->links('components.pagination.professional') }}
+                    </div>
+                @endif
             </section>
         </section>
 
-        <aside id="nouveau-sondage" class="glass-panel rounded-[2rem] p-6 sm:p-8 xl:sticky xl:top-6">
+        <aside class="glass-panel rounded-[2rem] p-6 sm:p-8 xl:sticky xl:top-6">
             <p class="text-sm font-medium uppercase tracking-[0.2em] text-cyan-300">Nouveau sondage</p>
             <h3 class="mt-2 text-xl font-semibold text-white">Créer rapidement</h3>
             <p class="mt-2 text-sm leading-6 text-slate-300">
-                Formulaire dédié avec structure claire pour lancer un nouveau sondage depuis le dashboard.
+                Ouvre le formulaire dans une fenêtre dédiée pour créer un sondage sans quitter le dashboard.
             </p>
+
+            <div class="mt-6 space-y-4">
+                <button type="button" class="btn-primary w-full" data-open-modal-target="nouveau-sondage-modal">
+                    Ouvrir le formulaire
+                </button>
+
+                <div class="rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-300">
+                    Renseigne un titre, ajoute tes dates et partage ensuite le lien généré avec tes participants.
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div
+        id="nouveau-sondage-modal"
+        class="modal-overlay hidden"
+        data-modal
+        data-modal-open-default="{{ $errors->any() ? 'true' : 'false' }}"
+        aria-hidden="true"
+    >
+        <div class="modal-backdrop" data-close-modal></div>
+
+        <div class="modal-panel glass-panel" role="dialog" aria-modal="true" aria-labelledby="nouveau-sondage-modal-title">
+            <div class="flex items-start justify-between gap-4 border-b border-white/10 pb-5">
+                <div>
+                    <p class="text-sm font-medium uppercase tracking-[0.2em] text-cyan-300">Nouveau sondage</p>
+                    <h3 id="nouveau-sondage-modal-title" class="mt-2 text-2xl font-semibold text-white">Créer un sondage</h3>
+                    <p class="mt-2 text-sm leading-6 text-slate-300">
+                        Remplis le formulaire puis valide pour publier ton nouveau créneau partagé.
+                    </p>
+                </div>
+
+                <button type="button" class="btn-secondary shrink-0" data-close-modal>
+                    Fermer
+                </button>
+            </div>
 
             @include('polls.partials.form', [
                 'poll' => null,
@@ -274,6 +292,6 @@
                 'formMethod' => 'POST',
                 'submitLabel' => 'Créer le sondage',
             ])
-        </aside>
+        </div>
     </div>
 @endsection

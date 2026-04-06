@@ -12,10 +12,12 @@
                     </p>
                 </div>
 
-                <div class="badge">
-                    <span>{{ $recentPolls->count() }}</span>
-                    <span>sondages récents</span>
-                </div>
+                @auth
+                    <div class="badge">
+                        <span>{{ $recentPolls->count() }}</span>
+                        <span>tes sondages récents</span>
+                    </div>
+                @endauth
             </div>
 
             <div class="mt-8 grid gap-4 md:grid-cols-3">
@@ -71,32 +73,42 @@
                 </div>
             </section>
 
-            <section class="glass-panel rounded-[2rem] p-6 sm:p-8">
-                <div class="flex items-center justify-between gap-4">
-                    <div>
-                        <p class="text-sm font-medium uppercase tracking-[0.2em] text-emerald-300">Sondages récents</p>
-                        <h3 class="mt-2 text-xl font-semibold text-white">Voir un exemple public</h3>
-                    </div>
-                </div>
-
-                <div class="mt-6 space-y-3">
-                    @forelse ($recentPolls as $poll)
-                        <a href="{{ route('polls.show', $poll) }}" class="block rounded-3xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-white/8">
-                            <div class="flex items-start justify-between gap-4">
-                                <div>
-                                    <p class="font-semibold text-white">{{ $poll->title }}</p>
-                                    <p class="mt-1 text-sm text-slate-400">Créé par {{ $poll->organizer_name }}</p>
-                                </div>
-                                <span class="text-xs text-slate-500">{{ $poll->created_at->diffForHumans() }}</span>
-                            </div>
-                        </a>
-                    @empty
-                        <div class="rounded-3xl border border-dashed border-white/10 px-4 py-8 text-center text-sm text-slate-400">
-                            Aucun sondage pour le moment. Inscris-toi pour créer le premier.
+            @auth
+                <section class="glass-panel rounded-[2rem] p-6 sm:p-8">
+                    <div class="flex items-center justify-between gap-4">
+                        <div>
+                            <p class="text-sm font-medium uppercase tracking-[0.2em] text-emerald-300">Sondages récents</p>
+                            <h3 class="mt-2 text-xl font-semibold text-white">Retrouver tes dernières créations</h3>
                         </div>
-                    @endforelse
-                </div>
-            </section>
+                    </div>
+
+                    <div class="mt-6 space-y-3">
+                        @forelse ($recentPolls as $poll)
+                            <a href="{{ route('polls.show', $poll) }}" class="block rounded-3xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-white/8">
+                                <div class="flex items-start justify-between gap-4">
+                                    <div>
+                                        <p class="font-semibold text-white">{{ $poll->title }}</p>
+                                        <p class="mt-1 text-sm text-slate-400">Créé par {{ $poll->organizer_name }}</p>
+                                    </div>
+                                    <span class="text-xs text-slate-500">{{ $poll->created_at->diffForHumans() }}</span>
+                                </div>
+                            </a>
+                        @empty
+                            <div class="rounded-3xl border border-dashed border-white/10 px-4 py-8 text-center text-sm text-slate-400">
+                                Tu n’as encore créé aucun sondage.
+                            </div>
+                        @endforelse
+                    </div>
+                </section>
+            @else
+                <section class="glass-panel rounded-[2rem] p-6 sm:p-8">
+                    <p class="text-sm font-medium uppercase tracking-[0.2em] text-emerald-300">Confidentialité</p>
+                    <h3 class="mt-2 text-xl font-semibold text-white">Les sondages récents restent privés</h3>
+                    <p class="mt-4 text-sm leading-6 text-slate-300">
+                        Les visiteurs publics ne voient pas la liste des derniers sondages créés. Seuls les organisateurs connectés accèdent à cette vue depuis leur espace.
+                    </p>
+                </section>
+            @endauth
         </aside>
     </div>
 @endsection

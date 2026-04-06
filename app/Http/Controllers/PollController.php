@@ -19,11 +19,19 @@ use Illuminate\View\View;
 
 class PollController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $recentPolls = Schema::hasTable('polls')
-            ? Poll::query()->latest()->take(6)->get()
-            : collect();
+        $recentPolls = collect();
+
+        if (Schema::hasTable('polls') && $request->user()) {
+            /** @var User $user */
+            $user = $request->user();
+
+            $recentPolls = $user->polls()
+                ->latest()
+                ->take(6)
+                ->get();
+        }
 
         return view('polls.index', [
             'recentPolls' => $recentPolls,
@@ -85,7 +93,7 @@ class PollController extends Controller
             ['Titre', 'Mode de vote', 'Dates proposées', 'Réponses', 'Créé le', 'Lien'],
         ];
 
-        foreach ($dashboardData['myPolls'] as $poll) {
+        foreach ($dashboardData['allMyPolls'] as $poll) {
             $lines[] = [
                 $poll->title,
                 $poll->allows_multiple_choices ? 'Vote multiple' : 'Vote unique',
@@ -120,18 +128,19 @@ class PollController extends Controller
             $query->where('created_at', '>=', $startDate);
         }
 
-        $myPolls = $query->get();
+        $allMyPolls = (clone $query)->get();
+        $myPolls = $query->paginate(5)->withQueryString();
 
-        $totalPolls = $myPolls->count();
-        $totalResponses = $myPolls->sum('responses_count');
-        $totalDates = $myPolls->sum('dates_count');
-        $singleChoicePolls = $myPolls->where('allows_multiple_choices', false)->count();
-        $multipleChoicePolls = $myPolls->where('allows_multiple_choices', true)->count();
+        $totalPolls = $allMyPolls->count();
+        $totalResponses = $allMyPolls->sum('responses_count');
+        $totalDates = $allMyPolls->sum('dates_count');
+        $singleChoicePolls = $allMyPolls->where('allows_multiple_choices', false)->count();
+        $multipleChoicePolls = $allMyPolls->where('allows_multiple_choices', true)->count();
         $averageResponses = $totalPolls > 0 ? round($totalResponses / $totalPolls, 1) : 0;
-        $topPoll = $myPolls->sortByDesc('responses_count')->first();
-        $maxResponses = max($myPolls->max('responses_count') ?? 0, 1);
+        $topPoll = $allMyPolls->sortByDesc('responses_count')->first();
+        $maxResponses = max($allMyPolls->max('responses_count') ?? 0, 1);
 
-        $performancePolls = $myPolls
+        $performancePolls = $allMyPolls
             ->sortByDesc('responses_count')
             ->take(6)
             ->values()
@@ -146,11 +155,12 @@ class PollController extends Controller
                 ];
             });
 
-        $trendPoints = $this->buildTrendPoints($myPolls, $range);
-        $datePopularityPoints = $this->buildDatePopularityPoints($myPolls);
+        $trendPoints = $this->buildTrendPoints($allMyPolls, $range);
+        $datePopularityPoints = $this->buildDatePopularityPoints($allMyPolls);
 
         return [
             'myPolls' => $myPolls,
+            'allMyPolls' => $allMyPolls,
             'dashboardStats' => [
                 'totalPolls' => $totalPolls,
                 'totalResponses' => $totalResponses,
@@ -259,12 +269,16 @@ class PollController extends Controller
             ->with('status', 'Le sondage a été supprimé.');
     }
 
-    public function show(Poll $poll): View
+    public function show(Request $request, Poll $poll): View
     {
         $poll->load([
             'dates.responseChoices.response',
-            'responses.choices.date',
-        ]);
+        ])->loadCount('responses');
+
+        $responses = $poll->responses()
+            ->with('choices.date')
+            ->paginate(10)
+            ->withQueryString();
 
         $dateSummaries = $poll->dates->map(function ($date) {
             $participants = $date->responseChoices
@@ -286,6 +300,7 @@ class PollController extends Controller
 
         return view('polls.show', [
             'poll' => $poll,
+            'responses' => $responses,
             'dateSummaries' => $dateSummaries,
             'bestCount' => $bestCount,
         ]);

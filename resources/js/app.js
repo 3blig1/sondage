@@ -228,6 +228,83 @@ const initDashboardCharts = () => {
 	}
 };
 
+const initModals = () => {
+	const modalMap = new Map();
+
+	document.querySelectorAll('[data-modal]').forEach((modal) => {
+		if (!(modal instanceof HTMLElement) || !modal.id) {
+			return;
+		}
+
+		modalMap.set(modal.id, modal);
+	});
+
+	if (modalMap.size === 0) {
+		return;
+	}
+
+	const openModal = (modal) => {
+		modal.classList.remove('hidden');
+		modal.setAttribute('aria-hidden', 'false');
+		document.body.classList.add('modal-open');
+	};
+
+	const closeModal = (modal) => {
+		modal.classList.add('hidden');
+		modal.setAttribute('aria-hidden', 'true');
+
+		const hasOpenModal = [...modalMap.values()].some((item) => !item.classList.contains('hidden'));
+
+		if (!hasOpenModal) {
+			document.body.classList.remove('modal-open');
+		}
+	};
+
+	document.querySelectorAll('[data-open-modal-target]').forEach((trigger) => {
+		trigger.addEventListener('click', (event) => {
+			const modalId = trigger.getAttribute('data-open-modal-target');
+			const modal = modalId ? modalMap.get(modalId) : null;
+
+			if (!modal) {
+				return;
+			}
+
+			event.preventDefault();
+			openModal(modal);
+		});
+	});
+
+	modalMap.forEach((modal) => {
+		modal.querySelectorAll('[data-close-modal]').forEach((button) => {
+			button.addEventListener('click', () => closeModal(modal));
+		});
+	});
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key !== 'Escape') {
+			return;
+		}
+
+		const activeModal = [...modalMap.values()].find((modal) => !modal.classList.contains('hidden'));
+
+		if (activeModal) {
+			closeModal(activeModal);
+		}
+	});
+
+	const hashedModal = window.location.hash ? modalMap.get(window.location.hash.slice(1)) : null;
+
+	if (hashedModal) {
+		openModal(hashedModal);
+	}
+
+	modalMap.forEach((modal) => {
+		if (modal.dataset.modalOpenDefault === 'true') {
+			openModal(modal);
+		}
+	});
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 	const container = document.querySelector('[data-date-fields]');
 	const addButton = document.querySelector('[data-add-date]');
@@ -276,5 +353,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
+	initModals();
 	initDashboardCharts();
 });

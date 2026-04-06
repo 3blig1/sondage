@@ -195,6 +195,44 @@ class PollWorkflowTest extends TestCase
         $response->assertSee('Réponses enregistrées');
     }
 
+    public function test_poll_participants_are_paginated_by_ten_for_the_owner(): void
+    {
+        $user = User::factory()->create([
+            'name' => 'Nora',
+        ]);
+
+        $poll = $user->polls()->create([
+            'title' => 'Sondage participants paginés',
+            'organizer_name' => $user->name,
+            'allows_multiple_choices' => true,
+            'slug' => 'sondage-participants-pagines-abcde',
+        ]);
+
+        $date = $poll->dates()->create([
+            'date' => now()->addDays(2)->toDateString(),
+        ]);
+
+        foreach (range(1, 12) as $index) {
+            $response = $poll->responses()->create([
+                'participant_name' => 'Participant '.$index,
+            ]);
+
+            $response->choices()->create([
+                'poll_date_id' => $date->id,
+            ]);
+        }
+
+        $firstPage = $this->actingAs($user)->get(route('polls.show', $poll));
+
+        $firstPage->assertOk();
+        $firstPage->assertViewHas('responses', fn ($responses) => $responses->count() === 10 && $responses->total() === 12);
+
+        $secondPage = $this->actingAs($user)->get(route('polls.show', [$poll, 'page' => 2]));
+
+        $secondPage->assertOk();
+        $secondPage->assertViewHas('responses', fn ($responses) => $responses->count() === 2 && $responses->currentPage() === 2);
+    }
+
     public function test_the_owner_can_update_a_poll_from_the_dashboard(): void
     {
         $user = User::factory()->create([
