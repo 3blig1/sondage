@@ -305,6 +305,25 @@ const initModals = () => {
 	});
 };
 
+const initSelectableOptions = () => {
+	document.querySelectorAll('[data-selectable-group]').forEach((group) => {
+		const syncState = () => {
+			group.querySelectorAll('[data-selectable-option]').forEach((option) => {
+				const input = option.querySelector('input[type="radio"], input[type="checkbox"]');
+
+				if (!(input instanceof HTMLInputElement)) {
+					return;
+				}
+
+				option.classList.toggle('is-selected', input.checked);
+			});
+		};
+
+		group.addEventListener('change', syncState);
+		syncState();
+	});
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 	const container = document.querySelector('[data-date-fields]');
 	const addButton = document.querySelector('[data-add-date]');
@@ -353,6 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
+	initSelectableOptions();
 	initModals();
 	initDashboardCharts();
 });

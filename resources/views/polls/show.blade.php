@@ -178,15 +178,19 @@
 
                     <div>
                         <p class="mb-3 text-sm font-medium text-slate-200">Dates disponibles</p>
-                        <div class="space-y-3">
+                        <div class="mb-4 rounded-2xl border border-cyan-400/15 bg-cyan-400/8 px-4 py-3 text-sm text-cyan-100">
+                            Appuie sur une carte pour sélectionner {{ $poll->allows_multiple_choices ? 'une ou plusieurs dates.' : 'la date qui te convient.' }}
+                        </div>
+
+                        <div class="space-y-3" data-selectable-group>
                             @foreach ($poll->dates as $date)
-                                <label class="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 transition hover:border-cyan-400/30 hover:bg-white/8">
+                                <label class="date-option-card" data-selectable-option>
                                     @if ($poll->allows_multiple_choices)
                                         <input
                                             type="checkbox"
                                             name="dates[]"
                                             value="{{ $date->id }}"
-                                            class="mt-1 h-5 w-5 rounded border-white/10 bg-slate-900 text-cyan-400 focus:ring-cyan-400"
+                                            class="date-option-input mt-1 h-5 w-5 rounded border-white/10 bg-slate-900 text-cyan-400 focus:ring-cyan-400"
                                             @checked(collect(old('dates', []))->contains($date->id) || collect(old('dates', []))->contains((string) $date->id))
                                         >
                                     @else
@@ -194,13 +198,16 @@
                                             type="radio"
                                             name="selected_date"
                                             value="{{ $date->id }}"
-                                            class="mt-1 h-5 w-5 border-white/10 bg-slate-900 text-cyan-400 focus:ring-cyan-400"
+                                            class="date-option-input mt-1 h-5 w-5 border-white/10 bg-slate-900 text-cyan-400 focus:ring-cyan-400"
                                             @checked((string) old('selected_date') === (string) $date->id)
                                         >
                                     @endif
-                                    <span>
+                                    <span class="min-w-0 flex-1">
                                         <span class="block font-medium text-white">{{ ucfirst($date->date->locale('fr')->isoFormat('dddd D MMMM YYYY')) }}</span>
                                         <span class="mt-1 block text-sm text-slate-400">{{ $date->responseChoices->count() }} participant(s) disponibles</span>
+                                    </span>
+                                    <span class="date-option-hint">
+                                        {{ $poll->allows_multiple_choices ? 'Sélectionner' : 'Choisir' }}
                                     </span>
                                 </label>
                             @endforeach
