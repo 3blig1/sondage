@@ -75,7 +75,7 @@
 
             @auth
                 <section class="glass-panel rounded-[2rem] p-6 sm:p-8">
-                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center justify-between gap-4">
                         <div>
                             <p class="text-sm font-medium uppercase tracking-[0.2em] text-emerald-300">Sondages récents</p>
                             <h3 class="mt-2 text-xl font-semibold text-white">Retrouver tes dernières créations</h3>
@@ -85,12 +85,12 @@
                     <div class="mt-6 space-y-3">
                         @forelse ($recentPolls as $poll)
                             <a href="{{ route('polls.show', $poll) }}" class="block rounded-3xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-white/8">
-                                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                <div class="flex items-start justify-between gap-4">
                                     <div>
                                         <p class="font-semibold text-white">{{ $poll->title }}</p>
                                         <p class="mt-1 text-sm text-slate-400">Créé par {{ $poll->organizer_name }}</p>
                                     </div>
-                                    <span class="shrink-0 text-xs text-slate-500">{{ $poll->created_at->diffForHumans() }}</span>
+                                    <span class="text-xs text-slate-500">{{ $poll->created_at->diffForHumans() }}</span>
                                 </div>
                             </a>
                         @empty

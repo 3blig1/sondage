@@ -20,22 +20,22 @@
                 </div>
 
                 <div class="mt-6 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                    <div class="responsive-chip-row">
+                    <div class="flex flex-wrap gap-2">
                         @foreach ($rangeOptions as $key => $label)
                             <a
                                 href="{{ route('dashboard', ['range' => $key]) }}"
-                                class="{{ $range === $key ? 'btn-primary' : 'btn-secondary' }} shrink-0"
+                                class="{{ $range === $key ? 'btn-primary' : 'btn-secondary' }}"
                             >
                                 {{ $label }}
                             </a>
                         @endforeach
                     </div>
 
-                    <div class="responsive-chip-row xl:justify-end">
-                        <a href="{{ route('dashboard.export.csv', ['range' => $range]) }}" class="btn-secondary shrink-0">
+                    <div class="flex flex-wrap gap-2">
+                        <a href="{{ route('dashboard.export.csv', ['range' => $range]) }}" class="btn-secondary">
                             Export CSV
                         </a>
-                        <a href="{{ route('dashboard.export.pdf', ['range' => $range]) }}" class="btn-secondary shrink-0">
+                        <a href="{{ route('dashboard.export.pdf', ['range' => $range]) }}" class="btn-secondary">
                             Export PDF
                         </a>
                     </div>
@@ -70,7 +70,7 @@
 
             <div class="grid gap-6 xl:grid-cols-[1.05fr,0.95fr]">
                 <section class="glass-panel rounded-[2rem] p-6 sm:p-8 xl:col-span-2">
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center justify-between gap-4">
                         <div>
                             <p class="text-sm font-medium uppercase tracking-[0.2em] text-cyan-300">Évolution</p>
                             <h3 class="mt-2 text-xl font-semibold text-white">Réponses selon la date de création</h3>
@@ -88,7 +88,7 @@
                 </section>
 
                 <section class="glass-panel rounded-[2rem] p-6 sm:p-8">
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center justify-between gap-4">
                         <div>
                             <p class="text-sm font-medium uppercase tracking-[0.2em] text-emerald-300">Performance</p>
                             <h3 class="mt-2 text-xl font-semibold text-white">Sondages les plus actifs</h3>
@@ -107,12 +107,12 @@
                     <div class="mt-6 space-y-4">
                         @forelse ($performancePolls as $item)
                             <a href="{{ $item['url'] }}" class="block rounded-[1.5rem] border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-white/8">
-                                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                <div class="flex items-start justify-between gap-4">
                                     <div>
                                         <p class="font-semibold text-white">{{ $item['title'] }}</p>
                                         <p class="mt-1 text-sm text-slate-400">{{ $item['responses'] }} réponse(s) · {{ $item['dates'] }} date(s)</p>
                                     </div>
-                                    <span class="w-fit rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-100">
+                                    <span class="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-100">
                                         {{ $item['mode'] === 'multiple' ? 'Vote multiple' : 'Vote unique' }}
                                     </span>
                                 </div>
@@ -130,7 +130,7 @@
                 </section>
 
                 <section class="glass-panel rounded-[2rem] p-6 sm:p-8">
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center justify-between gap-4">
                         <div>
                             <p class="text-sm font-medium uppercase tracking-[0.2em] text-amber-300">Dates populaires</p>
                             <h3 class="mt-2 text-xl font-semibold text-white">Créneaux les plus choisis</h3>
@@ -183,7 +183,7 @@
             </div>
 
             <section class="glass-panel rounded-[2rem] p-6 sm:p-8">
-                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-center justify-between gap-4">
                     <div>
                         <p class="text-sm font-medium uppercase tracking-[0.2em] text-emerald-300">Mes sondages</p>
                         <h3 class="mt-2 text-xl font-semibold text-white">Liste paginée</h3>
@@ -272,7 +272,7 @@
         <div class="modal-backdrop" data-close-modal></div>
 
         <div class="modal-panel glass-panel" role="dialog" aria-modal="true" aria-labelledby="nouveau-sondage-modal-title">
-            <div class="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-start sm:justify-between">
+            <div class="flex items-start justify-between gap-4 border-b border-white/10 pb-5">
                 <div>
                     <p class="text-sm font-medium uppercase tracking-[0.2em] text-cyan-300">Nouveau sondage</p>
                     <h3 id="nouveau-sondage-modal-title" class="mt-2 text-2xl font-semibold text-white">Créer un sondage</h3>
@@ -281,7 +281,7 @@
                     </p>
                 </div>
 
-                <button type="button" class="btn-secondary shrink-0 w-full sm:w-auto" data-close-modal>
+                <button type="button" class="btn-secondary shrink-0" data-close-modal>
                     Fermer
                 </button>
             </div>
